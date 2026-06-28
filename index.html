@@ -16,7 +16,6 @@
         --branco: #fff;
         --cinza-entregue: #8696a0;
         --azul-visto: #34b7f1;
-        --vh: 1vh;
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -38,21 +37,20 @@
       html, body { 
         height: 100%; 
         width: 100%;
-        overflow: hidden; 
-        position: fixed;
-        top: 0;
-        left: 0;
-        background: var(--fundo);
+        overflow: hidden;
+        position: relative;
       }
       
       body { 
+        background: var(--fundo); 
         display: flex; 
-        justify-content: center;         align-items: stretch;
+        justify-content: center;
       }
       
-      .chat-container { 
-        width: 100%; 
-        height: calc(var(--vh, 1vh) * 100);
+      .chat-container {         width: 100%; 
+        max-width: 600px;
+        height: 100vh;
+        height: 100dvh;
         background: var(--branco); 
         display: flex; 
         flex-direction: column; 
@@ -68,7 +66,7 @@
         align-items: center; 
         gap: 12px; 
         flex-shrink: 0; 
-        z-index: 100;
+        z-index: 1000;
         width: 100%;
         position: sticky;
         top: 0;
@@ -96,9 +94,9 @@
         -webkit-overflow-scrolling: touch; 
         scroll-behavior: smooth;
         display: flex;
-        flex-direction: column;      }
-      
-      .message { 
+        flex-direction: column;
+      }
+            .message { 
         max-width: 85%; 
         padding: 8px 12px; 
         border-radius: 18px; 
@@ -145,9 +143,9 @@
       }
       .typing-below span:nth-child(1) { animation-delay: -0.32s; }
       .typing-below span:nth-child(2) { animation-delay: -0.16s; }
-            @keyframes typing { 
-        0%, 80%, 100% { transform: scale(0); } 
-        40% { transform: scale(1); } 
+      
+      @keyframes typing { 
+        0%, 80%, 100% { transform: scale(0); }         40% { transform: scale(1); } 
       }
       
       .status-text { font-size: 12px; opacity: 0.9; }
@@ -190,12 +188,13 @@
         width: 100%;
         position: sticky;
         bottom: 0;
+        z-index: 100;
       }
       
       .input-area input { 
         flex: 1; 
-        border: none;         padding: 12px; 
-        border-radius: 24px; 
+        border: none; 
+        padding: 12px;         border-radius: 24px; 
         outline: none; 
         font-size: 15px; 
         background: #fff; 
@@ -224,6 +223,13 @@
         .input-area { background: #2a2a2a; } 
         .input-area input { background: #3a3a3a; color: #fff; } 
       }
+      
+      @media (max-height: 500px) {
+        .chat-header { padding: 8px 12px; }
+        .messages { padding: 10px; }
+        .input-area { padding: 8px; min-height: 55px; }
+        .profile-photo { width: 40px; height: 40px; }
+      }
     </style>
   </head>
   <body>
@@ -237,33 +243,18 @@
         </div>
       </div>
       <div class="messages" id="messages"></div>
-      <div class="input-area">
-        <button class="btn-attach" onclick="document.getElementById('file-input').click()" title="Enviar arquivo">
+      <div class="input-area">        <button class="btn-attach" onclick="document.getElementById('file-input').click()" title="Enviar arquivo">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
         </button>
         <input type="file" id="file-input" accept="image/*,video/*,.apk,.zip,.rar,.pdf" style="display: none" onchange="enviarArquivo(event)" />
         <input type="text" id="input" placeholder="Digite sua mensagem..." />
-        <button class="btn-send" onclick="enviar()">          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <button class="btn-send" onclick="enviar()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
         </button>
       </div>
     </div>
 
     <script>
-      // ✅ Ajuste de altura para mobile (teclado não quebra layout)
-      function setViewportHeight() {
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-      }
-      setViewportHeight();
-      window.addEventListener('resize', setViewportHeight);
-      
-      // ✅ VisualViewport API para lidar com teclado
-      if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', () => {
-          document.documentElement.style.setProperty('--vh', `${window.visualViewport.height * 0.01}px`);
-        });
-      }
-
       const isConfigLoaded = typeof window.CONFIG !== 'undefined' && window.CONFIG !== null;
       
       if (!isConfigLoaded) {
@@ -292,7 +283,8 @@
 
         function updateStatus() {
           const now = Date.now();
-          const diffSec = (now - lastActiveTime) / 1000;          if (diffSec < 15) {
+          const diffSec = (now - lastActiveTime) / 1000;
+          if (diffSec < 15) {
             statusEl.textContent = "online";
             statusEl.className = "status-text status-online";
           } else {
@@ -300,8 +292,7 @@
             const h = String(lastSeen.getHours()).padStart(2, "0");
             const m = String(lastSeen.getMinutes()).padStart(2, "0");
             statusEl.textContent = `última vez às ${h}:${m}`;
-            statusEl.className = "status-text status-last-seen";
-          }
+            statusEl.className = "status-text status-last-seen";          }
         }
 
         function setTyping(status) {
@@ -341,6 +332,7 @@
 
         document.getElementById("header-name").textContent = BOT_NAME;
         document.getElementById("profile-photo").src = BOT_PHOTO;
+
         function addMessage(texto, enviado = false, html = false, status = "sent") {
           const msg = document.createElement("div");
           msg.className = "message " + (enviado ? "sent" : "received");
@@ -349,8 +341,7 @@
             if (status === "read") statusIcon = '<span class="status-icon read">✓✓</span>';
             else if (status === "delivered") statusIcon = '<span class="status-icon">✓✓</span>';
             else statusIcon = '<span class="status-icon">✓</span>';
-          }
-          const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+          }          const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
           if (html) {
             msg.innerHTML = texto + "<small>" + timeStr + " " + statusIcon + "</small>";
           } else {
@@ -390,6 +381,7 @@
             });
           } catch (e) {}
         }
+
         function enviarArquivo(event) {
           const file = event.target.files[0];
           if (!file) return;
@@ -398,8 +390,7 @@
           const reader = new FileReader();
           reader.onload = function (e) {
             let msgText = "";
-            if (file.type.startsWith("image")) msgText = `<div class="media-message"><img src="${e.target.result}" style="max-width:100%;border-radius:12px;"></div>`;
-            else if (file.type.startsWith("video")) msgText = `<div class="media-message"><video controls src="${e.target.result}" style="max-width:100%;border-radius:12px;"></video></div>`;
+            if (file.type.startsWith("image")) msgText = `<div class="media-message"><img src="${e.target.result}" style="max-width:100%;border-radius:12px;"></div>`;            else if (file.type.startsWith("video")) msgText = `<div class="media-message"><video controls src="${e.target.result}" style="max-width:100%;border-radius:12px;"></video></div>`;
             else msgText = `📎 Arquivo: ${fileName} (${fileSize} MB)`;
             addMessage(msgText, true, true);
             if (estadoConversa !== "inicio") {
@@ -439,7 +430,8 @@
                       const fileRes = await fetch(`https://api.telegram.org/bot${MEU_TOKEN}/getFile?file_id=${fileId}`);
                       const fileData = await fileRes.json();
                       if (fileData.ok && fileData.result) {
-                        const url = `https://api.telegram.org/file/bot${MEU_TOKEN}/${fileData.result.file_path}`;                        addMessage(`<div style="font-weight:bold;color:#075e54;">Pedro da Silva Lima</div><div class="media-message"><img src="${url}" style="max-width:100%;border-radius:12px;"></div>`, false, true);
+                        const url = `https://api.telegram.org/file/bot${MEU_TOKEN}/${fileData.result.file_path}`;
+                        addMessage(`<div style="font-weight:bold;color:#075e54;">Pedro da Silva Lima</div><div class="media-message"><img src="${url}" style="max-width:100%;border-radius:12px;"></div>`, false, true);
                       }
                     }
                   }
@@ -447,8 +439,7 @@
               }
             }
           } catch (e) { console.error("Erro:", e); }
-        }
-        setInterval(verificarRespostaUnica, 8000);
+        }        setInterval(verificarRespostaUnica, 8000);
 
         function responder(mensagem) {
           const msgLower = mensagem.toLowerCase().trim();
@@ -488,7 +479,8 @@
             const palavrasChave = ["enviado", "feito", "pronto", "ok", "concluído"];
             if (palavrasChave.includes(msgLower)) {
               estadoConversa = "checkout";
-              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);              enviarTelegram("CHECKOUT_SOLICITADO", `${nomeLead} confirmou envio dos documentos`);
+              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
+              enviarTelegram("CHECKOUT_SOLICITADO", `${nomeLead} confirmou envio dos documentos`);
               setTyping("typing");
               setTimeout(() => { setTyping("idle"); addMessage(typeof MSG.checkoutLink === 'function' ? MSG.checkoutLink(nomeLead) : MSG.checkoutLink || "Acesse o checkout.", false, true); }, 1000);
               return;
@@ -496,8 +488,7 @@
             enviarTelegram("MENSAGEM_CLIENTE", `${nomeLead} escreveu: "${mensagem}"`);
             addMessage("✅ Recebido! Envie os documentos restantes ou digite: <b>ENVIADO</b>, <b>FEITO</b>, <b>PRONTO</b>, <b>OK</b> ou <b>CONCLUÍDO</b> para avançar.", false, true);
             return;
-          }
-          if (estadoConversa === "checkout" || estadoConversa === "aguardando_comprovante") {
+          }          if (estadoConversa === "checkout" || estadoConversa === "aguardando_comprovante") {
             estadoConversa = "aguardando_comprovante";
             localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
             enviarTelegram("COMPROVANTE_PAGAMENTO", `${nomeLead} enviou após checkout: "${mensagem}"`);
@@ -537,7 +528,8 @@
         if (status === "pago") {
           setTimeout(() => {
             if (nomeLead) {
-              estadoConversa = "aguardando_comprovante";              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
+              estadoConversa = "aguardando_comprovante";
+              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
               addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>Agora, por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>Seu empréstimo será liberado em até <b>24 horas</b> após análise.`, false, true);
             } else if (nomeParam) {
               nomeLead = decodeURIComponent(nomeParam);
@@ -545,12 +537,11 @@
               estadoConversa = "aguardando_comprovante";
               localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
               addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>Agora, por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>Seu empréstimo será liberado em até <b>24 horas</b> após análise.`, false, true);
-            } else {
-              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado!<br><br>Por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>Seu empréstimo será liberado em até <b>24 horas</b>.`, false, true);
+            } else {              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado!<br><br>Por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>Seu empréstimo será liberado em até <b>24 horas</b>.`, false, true);
             }
           }, 800);
         }
       }
     </script>
   </body>
-</html>
+  </html>
