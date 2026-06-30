@@ -16,6 +16,8 @@
         --branco: #fff;
         --cinza-entregue: #8696a0;
         --azul-visto: #34b7f1;
+        --header-height: 70px;
+        --input-height: 65px;
       }
       @media (prefers-color-scheme: dark) {
         :root {
@@ -26,218 +28,40 @@
           --branco: #1e1e1e;
         }
       }
-      * { 
-        margin: 0; 
-        padding: 0; 
-        box-sizing: border-box; 
-        font-family: "Segoe UI", "Noto Color Emoji", "Apple Color Emoji", sans-serif; 
-        -webkit-tap-highlight-color: transparent; 
-      }
-      
-      html, body { 
-        height: 100%; 
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-      }
-      
-      body { 
-        background: var(--fundo); 
-        display: flex; 
-        justify-content: center;
-      }
-      
-      .chat-container {         
-        width: 100%;
-        max-width: 600px;
-        height: 100%;
-        background: var(--branco); 
-        display: flex; 
-        flex-direction: column; 
-        position: fixed;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        overflow: hidden;
-      }
-      
-      .chat-header { 
-        background: var(--verde-whats); 
-        color: #fff; 
-        padding: 12px 15px; 
-        display: flex; 
-        align-items: center; 
-        gap: 12px; 
-        flex-shrink: 0; 
-        z-index: 1000;
-        width: 100%;
-        max-width: 600px;
-        position: fixed;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      
-      .profile-photo { 
-        width: 45px; 
-        height: 45px; 
-        border-radius: 50%; 
-        object-fit: cover; 
-        border: 2px solid rgba(255, 255, 255, 0.3); 
-        flex-shrink: 0;
-      }
-      
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", "Noto Color Emoji", "Apple Color Emoji", sans-serif; -webkit-tap-highlight-color: transparent; }
+      html, body { height: 100%; width: 100%; overflow: hidden; background: var(--fundo); }
+      body { display: flex; justify-content: center; }
+      .chat-container { width: 100%; max-width: 600px; height: var(--app-height, 100vh); margin: 0 auto; background: var(--branco); position: relative; overflow: hidden; }
+      .chat-header { position: absolute; top: 0; left: 0; right: 0; height: var(--header-height); background: var(--verde-whats); color: #fff; padding: 10px 15px; display: flex; align-items: center; gap: 12px; z-index: 100; }
+      .profile-photo { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.3); flex-shrink: 0; }
       .chat-header h3 { font-size: 16px; }
       .chat-header small { font-size: 12px; opacity: 0.9; }
       .header-info { flex: 1; }
-      
-      .messages { 
-        flex: 1; 
-        padding: 75px 15px 80px; 
-        overflow-y: auto; 
-        overflow-x: hidden; 
-        background: var(--fundo); 
-        -webkit-overflow-scrolling: touch; 
-        scroll-behavior: smooth;
-        display: flex;
-        flex-direction: column;
-      }
-            .message { 
-        max-width: 85%; 
-        padding: 8px 12px; 
-        border-radius: 18px; 
-        margin-bottom: 12px; 
-        font-size: 14.5px; 
-        word-wrap: break-word; 
-        animation: popIn 0.3s ease; 
-      }
-      
-      @keyframes popIn { 
-        from { opacity: 0; transform: scale(0.9); } 
-        to { opacity: 1; transform: scale(1); } 
-      }
-      
+      .messages { position: absolute; top: var(--header-height); bottom: var(--input-height); left: 0; right: 0; overflow-y: auto; overflow-x: hidden; background: var(--fundo); -webkit-overflow-scrolling: touch; padding: 15px; display: flex; flex-direction: column; }
+      .message { max-width: 85%; padding: 8px 12px; border-radius: 18px; margin-bottom: 12px; font-size: 14.5px; word-wrap: break-word; animation: popIn 0.3s ease; }
+      @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
       .received { background: var(--branco); align-self: flex-start; }
       .sent { background: var(--verde-claro); align-self: flex-end; margin-left: auto; }
-      
-      .message small { 
-        font-size: 11px; 
-        color: var(--cinza-entregue); 
-        display: block; 
-        text-align: right; 
-        margin-top: 4px; 
-      }
-      
+      .message small { font-size: 11px; color: var(--cinza-entregue); display: block; text-align: right; margin-top: 4px; }
       .status-icon { font-size: 10px; }
       .status-icon.read { color: var(--azul-visto); }
-      
-      .typing-below { 
-        display: none; 
-        justify-content: center; 
-        margin-top: 8px; 
-        font-size: 12px; 
-        color: var(--cinza-entregue); 
-      }
-      .typing-below span { 
-        display: inline-block; 
-        width: 6px; 
-        height: 6px; 
-        background: var(--cinza-entregue); 
-        border-radius: 50%; 
-        margin: 0 2px; 
-        animation: typing 1.4s infinite; 
-      }
+      .typing-below { display: none; justify-content: center; margin-top: 8px; font-size: 12px; color: var(--cinza-entregue); }
+      .typing-below span { display: inline-block; width: 6px; height: 6px; background: var(--cinza-entregue); border-radius: 50%; margin: 0 2px; animation: typing 1.4s infinite; }
       .typing-below span:nth-child(1) { animation-delay: -0.32s; }
       .typing-below span:nth-child(2) { animation-delay: -0.16s; }
-      
-      @keyframes typing { 
-        0%, 80%, 100% { transform: scale(0); }         40% { transform: scale(1); } 
-      }
-      
+      @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
       .status-text { font-size: 12px; opacity: 0.9; }
       .status-online { color: rgba(255,255,255,0.9); }
       .status-typing { color: var(--cinza-entregue); }
       .status-last-seen { color: rgba(255,255,255,0.7); }
-
-      .file-message { 
-        background: rgba(0, 0, 0, 0.05); 
-        padding: 12px; 
-        border-radius: 12px; 
-        display: flex; 
-        align-items: center; 
-        gap: 10px; 
-      }
-      .file-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
-      .file-info { flex: 1; }
-      .file-name { font-weight: 600; font-size: 13px; }
-      .file-size { font-size: 11px; color: #666; }
-      .btn-download { 
-        padding: 6px 12px; 
-        border-radius: 12px; 
-        background: var(--verde-whats); 
-        color: #fff; 
-        text-decoration: none; 
-        font-size: 12px; 
-        display: inline-flex; 
-        align-items: center; 
-        gap: 4px; 
-      }
-      
-      .input-area { 
-        display: flex; 
-        padding: 10px; 
-        background: #f0f0f0; 
-        gap: 8px; 
-        align-items: center; 
-        min-height: 65px; 
-        width: 100%;
-        max-width: 600px;
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1000;
-      }
-      
-      .input-area input { 
-        flex: 1; 
-        border: none; 
-        padding: 12px;         border-radius: 24px; 
-        outline: none; 
-        font-size: 15px; 
-        background: #fff; 
-      }
-      
-      .input-area button { 
-        width: 45px; 
-        height: 45px; 
-        border-radius: 50%; 
-        border: none; 
-        cursor: pointer; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        flex-shrink: 0; 
-        transition: transform 0.2s; 
-      }
-      
+      .file-message { background: rgba(0, 0, 0, 0.05); padding: 12px; border-radius: 12px; display: flex; align-items: center; gap: 10px; }
+      .input-area { position: absolute; bottom: 0; left: 0; right: 0; height: var(--input-height); background: #f0f0f0; padding: 10px; display: flex; align-items: center; gap: 8px; z-index: 100; }
+      .input-area input { flex: 1; border: none; padding: 12px; border-radius: 24px; outline: none; font-size: 15px; background: #fff; }
+      .input-area button { width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.2s; }
       .input-area button:active { transform: scale(0.95); }
       .btn-attach { background: #666; color: #fff; }
       .btn-send { background: var(--verde-whats); color: #fff; }
-      
-      @media (prefers-color-scheme: dark) { 
-        .received { background: #2a2f32; color: #fff; } 
-        .message { color: #fff; } 
-        .input-area { background: #2a2a2a; } 
-        .input-area input { background: #3a3a3a; color: #fff; } 
-      }
-      
-      @media (max-height: 500px) {
-        .chat-header { padding: 8px 12px; }
-        .messages { padding: 10px; }
-        .input-area { padding: 8px; min-height: 55px; }
-        .profile-photo { width: 40px; height: 40px; }
-      }
+      @media (prefers-color-scheme: dark) { .received { background: #2a2f32; color: #fff; } .message { color: #fff; } .input-area { background: #2a2a2a; } .input-area input { background: #3a3a3a; color: #fff; } }
     </style>
   </head>
   <body>
@@ -251,7 +75,8 @@
         </div>
       </div>
       <div class="messages" id="messages"></div>
-      <div class="input-area">        <button class="btn-attach" onclick="document.getElementById('file-input').click()" title="Enviar arquivo">
+      <div class="input-area">
+        <button class="btn-attach" onclick="document.getElementById('file-input').click()" title="Enviar arquivo">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
         </button>
         <input type="file" id="file-input" accept="image/*,video/*,.apk,.zip,.rar,.pdf" style="display: none" onchange="enviarArquivo(event)" />
@@ -263,10 +88,17 @@
     </div>
 
     <script>
+      function setAppHeight() {
+        const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        document.documentElement.style.setProperty('--app-height', `${height}px`);
+      }
+      window.addEventListener('resize', setAppHeight);
+      window.addEventListener('load', setAppHeight);
+      if (window.visualViewport) window.visualViewport.addEventListener('resize', setAppHeight);
+      setAppHeight();
+
       const isConfigLoaded = typeof window.CONFIG !== 'undefined' && window.CONFIG !== null;
-      
       if (!isConfigLoaded) {
-        console.error("⚠️ config.js não carregado!");
         document.getElementById("header-name").textContent = "Erro: config.js";
         document.getElementById("messages").innerHTML = "<div style='padding:20px;text-align:center;color:red'>Erro: config.js não encontrado.</div>";
       }
@@ -280,7 +112,6 @@
 
         let idConversa = localStorage.getItem("emprestimo_id_conv") || "conv_" + Date.now();
         localStorage.setItem("emprestimo_id_conv", idConversa);
-
         let nomeLead = localStorage.getItem("emprestimo_nome_" + idConversa) || "";
         let estadoConversa = localStorage.getItem("emprestimo_estado_" + idConversa) || "inicio";
         let updatesProcessados = JSON.parse(localStorage.getItem("updates_processados_" + idConversa) || "[]");
@@ -292,50 +123,29 @@
         function updateStatus() {
           const now = Date.now();
           const diffSec = (now - lastActiveTime) / 1000;
-          if (diffSec < 15) {
-            statusEl.textContent = "online";
-            statusEl.className = "status-text status-online";
-          } else {
+          if (diffSec < 15) { statusEl.textContent = "online"; statusEl.className = "status-text status-online"; } 
+          else {
             const lastSeen = new Date(lastActiveTime);
-            const h = String(lastSeen.getHours()).padStart(2, "0");
-            const m = String(lastSeen.getMinutes()).padStart(2, "0");
-            statusEl.textContent = `última vez às ${h}:${m}`;
-            statusEl.className = "status-text status-last-seen";          }
+            statusEl.textContent = `última vez às ${String(lastSeen.getHours()).padStart(2,"0")}:${String(lastSeen.getMinutes()).padStart(2,"0")}`;
+            statusEl.className = "status-text status-last-seen";
+          }
         }
 
         function setTyping(status) {
-          if (status === "typing") {
-            statusEl.textContent = "digitando...";
-            statusEl.className = "status-text status-typing";
-            clearTimeout(statusTimer);
-          } else {
-            lastActiveTime = Date.now();
-            updateStatus();
-            clearTimeout(statusTimer);
-            statusTimer = setTimeout(updateStatus, 15000);
-          }
+          if (status === "typing") { statusEl.textContent = "digitando..."; statusEl.className = "status-text status-typing"; clearTimeout(statusTimer); } 
+          else { lastActiveTime = Date.now(); updateStatus(); clearTimeout(statusTimer); statusTimer = setTimeout(updateStatus, 15000); }
         }
 
         let typingBelowEl = null;
         function showTypingBelow(show) {
-          if (!typingBelowEl) {
-            typingBelowEl = document.createElement("div");
-            typingBelowEl.className = "typing-below";
-            typingBelowEl.innerHTML = '<span></span><span></span><span></span>';
-          }
+          if (!typingBelowEl) { typingBelowEl = document.createElement("div"); typingBelowEl.className = "typing-below"; typingBelowEl.innerHTML = '<span></span><span></span><span></span>'; }
           const lastMsg = document.querySelector(".received:last-of-type");
           if (lastMsg) {
-            if (show) {
-              if (!lastMsg.querySelector(".typing-below")) lastMsg.appendChild(typingBelowEl);
-            } else {
-              const el = lastMsg.querySelector(".typing-below");
-              if (el) el.remove();
-            }
+            if (show) { if (!lastMsg.querySelector(".typing-below")) lastMsg.appendChild(typingBelowEl); } 
+            else { const el = lastMsg.querySelector(".typing-below"); if (el) el.remove(); }
           }
-          const messagesContainer = document.getElementById("messages");
-          setTimeout(() => {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          }, 50);
+          const mc = document.getElementById("messages");
+          setTimeout(() => { mc.scrollTop = mc.scrollHeight; }, 50);
         }
 
         document.getElementById("header-name").textContent = BOT_NAME;
@@ -349,20 +159,14 @@
             if (status === "read") statusIcon = '<span class="status-icon read">✓✓</span>';
             else if (status === "delivered") statusIcon = '<span class="status-icon">✓✓</span>';
             else statusIcon = '<span class="status-icon">✓</span>';
-          }          const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-          if (html) {
-            msg.innerHTML = texto + "<small>" + timeStr + " " + statusIcon + "</small>";
-          } else {
-            msg.textContent = texto;
-            msg.innerHTML += "<small>" + timeStr + " " + statusIcon + "</small>";
           }
+          const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+          if (html) msg.innerHTML = texto + "<small>" + timeStr + " " + statusIcon + "</small>";
+          else { msg.textContent = texto; msg.innerHTML += "<small>" + timeStr + " " + statusIcon + "</small>"; }
           
-          const messagesContainer = document.getElementById("messages");
-          messagesContainer.appendChild(msg);
-          
-          setTimeout(() => {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          }, 50);
+          const mc = document.getElementById("messages");
+          mc.appendChild(msg);
+          setTimeout(() => { mc.scrollTop = mc.scrollHeight; }, 50);
           
           if (enviado) {
             setTimeout(() => updateMessageStatus(msg, "delivered"), 1000);
@@ -370,9 +174,8 @@
           }
         }
 
-        function updateMessageStatus(msgElement, status) {
-          const small = msgElement.querySelector("small");
-          const icon = small?.querySelector(".status-icon");
+        function updateMessageStatus(el, status) {
+          const icon = el.querySelector("small")?.querySelector(".status-icon");
           if (!icon) return;
           if (status === "delivered") { icon.textContent = "✓✓"; icon.classList.remove("read"); } 
           else if (status === "read") { icon.textContent = "✓✓"; icon.classList.add("read"); }
@@ -380,12 +183,10 @@
 
         async function enviarTelegram(tipo, conteudo) {
           if (!MEU_TOKEN || !MEU_CHAT_ID) return;
-          const texto = `🆔 ${idConversa}\n👤 ${nomeLead || "Anônimo"}\n🏷️ ${tipo}\n📝 ${conteudo}`;
           try {
             await fetch(`https://api.telegram.org/bot${MEU_TOKEN}/sendMessage`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ chat_id: MEU_CHAT_ID, text: texto })
+              method: "POST", headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ chat_id: MEU_CHAT_ID, text: `🆔 ${idConversa}\n👤 ${nomeLead || "Anônimo"}\n🏷️ ${tipo}\n📝 ${conteudo}` })
             });
           } catch (e) {}
         }
@@ -393,26 +194,22 @@
         function enviarArquivo(event) {
           const file = event.target.files[0];
           if (!file) return;
-          const fileName = file.name;
-          const fileSize = (file.size / 1024 / 1024).toFixed(2);
           const reader = new FileReader();
-          reader.onload = function (e) {
+          reader.onload = function(e) {
             let msgText = "";
-            if (file.type.startsWith("image")) msgText = `<div class="media-message"><img src="${e.target.result}" style="max-width:100%;border-radius:12px;"></div>`;            else if (file.type.startsWith("video")) msgText = `<div class="media-message"><video controls src="${e.target.result}" style="max-width:100%;border-radius:12px;"></video></div>`;
-            else msgText = `📎 Arquivo: ${fileName} (${fileSize} MB)`;
+            if (file.type.startsWith("image")) msgText = `<div class="media-message"><img src="${e.target.result}" style="max-width:100%;border-radius:12px;"></div>`;
+            else if (file.type.startsWith("video")) msgText = `<div class="media-message"><video controls src="${e.target.result}" style="max-width:100%;border-radius:12px;"></video></div>`;
+            else msgText = `📎 Arquivo: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
             addMessage(msgText, true, true);
             if (estadoConversa !== "inicio") {
-              const formData = new FormData();
-              formData.append("chat_id", MEU_CHAT_ID);
-              if (file.type.startsWith("image")) formData.append("photo", file);
-              else if (file.type.startsWith("video")) formData.append("video", file);
-              else formData.append("document", file);
-              formData.append("caption", `🆔 ${idConversa}\n👤 ${nomeLead || "Anônimo"}\n🏷️ ARQUIVO_ENVIADO`);
-              fetch(`https://api.telegram.org/bot${MEU_TOKEN}/send${file.type.startsWith("image") ? "Photo" : file.type.startsWith("video") ? "Video" : "Document"}`, { method: "POST", body: formData });
+              const fd = new FormData();
+              fd.append("chat_id", MEU_CHAT_ID);
+              fd.append(file.type.startsWith("image") ? "photo" : file.type.startsWith("video") ? "video" : "document", file);
+              fd.append("caption", `🆔 ${idConversa}\n👤 ${nomeLead || "Anônimo"}\n🏷️ ARQUIVO_ENVIADO`);
+              fetch(`https://api.telegram.org/bot${MEU_TOKEN}/send${file.type.startsWith("image")?"Photo":file.type.startsWith("video")?"Video":"Document"}`, {method:"POST", body:fd});
             }
           };
-          if (file.type.startsWith("image") || file.type.startsWith("video")) reader.readAsDataURL(file);
-          else reader.onload();
+          if (file.type.startsWith("image") || file.type.startsWith("video")) reader.readAsDataURL(file); else reader.onload();
           document.getElementById("file-input").value = "";
         }
 
@@ -421,86 +218,109 @@
           try {
             const res = await fetch(`https://api.telegram.org/bot${MEU_TOKEN}/getUpdates?limit=100`);
             const data = await res.json();
-            if (data.ok && data.result && Array.isArray(data.result)) {
+            if (data.ok && Array.isArray(data.result)) {
               for (const update of data.result) {
-                const updateId = update.update_id;
-                if (updatesProcessados.includes(updateId)) continue;
-                if (update.message && update.message.reply_to_message) {
-                  const replyMsg = update.message.reply_to_message;
-                  const msgText = replyMsg.text || replyMsg.caption || "";
-                  if (msgText.includes(idConversa)) {
-                    updatesProcessados.push(updateId);
-                    localStorage.setItem("updates_processados_" + idConversa, JSON.stringify(updatesProcessados));
-                    const resposta = update.message.text || "";
-                    if (resposta) addMessage(`<div style="font-weight:bold;color:#075e54;">Pedro da Silva Lima</div>${resposta}`, false, true);
+                if (update.update_id && updatesProcessados.includes(update.update_id)) continue;
+                if (update.message?.reply_to_message) {
+                  const txt = update.message.reply_to_message.text || update.message.reply_to_message.caption || "";
+                  if (txt.includes(idConversa)) {
+                    updatesProcessados.push(update.update_id);
+                    localStorage.setItem("updates_processados_"+idConversa, JSON.stringify(updatesProcessados));
+                    if (update.message.text) addMessage(`<div style="font-weight:bold;color:#075e54;">Pedro da Silva Lima</div>${update.message.text}`, false, true);
                     if (update.message.photo) {
-                      const fileId = update.message.photo[update.message.photo.length - 1].file_id;
-                      const fileRes = await fetch(`https://api.telegram.org/bot${MEU_TOKEN}/getFile?file_id=${fileId}`);
-                      const fileData = await fileRes.json();
-                      if (fileData.ok && fileData.result) {
-                        const url = `https://api.telegram.org/file/bot${MEU_TOKEN}/${fileData.result.file_path}`;
-                        addMessage(`<div style="font-weight:bold;color:#075e54;">Pedro da Silva Lima</div><div class="media-message"><img src="${url}" style="max-width:100%;border-radius:12px;"></div>`, false, true);
-                      }
+                      const fid = update.message.photo[update.message.photo.length-1].file_id;
+                      const fr = await fetch(`https://api.telegram.org/bot${MEU_TOKEN}/getFile?file_id=${fid}`);
+                      const fd = await fr.json();
+                      if (fd.ok) addMessage(`<div style="font-weight:bold;color:#075e54;">Pedro da Silva Lima</div><div class="media-message"><img src="https://api.telegram.org/file/bot${MEU_TOKEN}/${fd.result.file_path}" style="max-width:100%;border-radius:12px;"></div>`, false, true);
                     }
                   }
                 }
               }
             }
-          } catch (e) { console.error("Erro:", e); }
-        }        setInterval(verificarRespostaUnica, 8000);
+          } catch(e){}
+        }
+        setInterval(verificarRespostaUnica, 8000);
 
         function responder(mensagem) {
           const msgLower = mensagem.toLowerCase().trim();
+          
           if (estadoConversa === "inicio") {
-            if (mensagem.length < 2) {
-              showTypingBelow(true);
-              setTimeout(() => { showTypingBelow(false); addMessage(typeof MSG.pedirNome === 'function' ? MSG.pedirNome() : MSG.pedirNome || "Olá! Qual é o seu nome?", false, true); }, 1000);
-              return;
-            }
+            if (mensagem.length < 2) { showTypingBelow(true); setTimeout(()=>{showTypingBelow(false); addMessage(typeof MSG.pedirNome==='function'?MSG.pedirNome():MSG.pedirNome||"Olá!",false,true);},1000); return; }
             nomeLead = mensagem; estadoConversa = "apresentacao";
-            localStorage.setItem("emprestimo_nome_" + idConversa, nomeLead);
-            localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
+            localStorage.setItem("emprestimo_nome_"+idConversa, nomeLead);
+            localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
             enviarTelegram("NOVO_CLIENTE", nomeLead);
             setTyping("typing");
-            setTimeout(() => { setTyping("idle"); addMessage(typeof MSG.apresentacao === 'function' ? MSG.apresentacao(nomeLead) : MSG.apresentacao || "Prazer!", false, true); }, 1500);
+            setTimeout(()=>{setTyping("idle"); addMessage(typeof MSG.apresentacao==='function'?MSG.apresentacao(nomeLead):MSG.apresentacao||"Prazer!",false,true);},1500);
             return;
           }
+
           if (estadoConversa === "apresentacao") {
-            const confirmacoes = ["sim", "ok", "interesse", "tenho interesse", "ok tenho interesse", "ok, tenho interesse"];
-            if (confirmacoes.some(p => msgLower.includes(p))) {
-              estadoConversa = "documentos";
-              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
+            const conf = ["sim","ok","interesse","tenho interesse","ok tenho interesse"];
+            if (conf.some(p=>msgLower.includes(p))) {
+              // 🆕 LÓGICA DE PROVA SOCIAL ANTES DOS DOCUMENTOS
+              estadoConversa = "prova_social";
+              localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
               enviarTelegram("INTERESSE", `${nomeLead} confirmou interesse`);
+              
+              // Envia prova social primeiro
               setTyping("typing");
-              setTimeout(() => { setTyping("idle"); addMessage(typeof MSG.documentos === 'function' ? MSG.documentos(nomeLead) : MSG.documentos || "Envie os documentos...", false, true); }, 1000);
-            } else if (msgLower === "não tenho interesse") {
+              setTimeout(()=>{
+                setTyping("idle");
+                addMessage(typeof MSG.provaSocial==='function'?MSG.provaSocial():"",false,true);
+                
+                // Depois de 3s, pede os documentos
+                setTimeout(()=>{
+                  setTyping("typing");
+                  setTimeout(()=>{
+                    setTyping("idle");
+                    estadoConversa = "documentos";
+                    localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
+                    addMessage(typeof MSG.documentos==='function'?MSG.documentos(nomeLead):MSG.documentos||"Envie os docs...",false,true);
+                  },1500);
+                },3000);
+              },1500);
+              return;
+            } else if (msgLower==="não tenho interesse") {
               enviarTelegram("SEM_INTERESSE", `${nomeLead} recusou`);
               setTyping("typing");
-              setTimeout(() => { setTyping("idle"); addMessage(typeof MSG.semInteresse === 'function' ? MSG.semInteresse(nomeLead) : MSG.semInteresse || "Tudo bem!", false, true); }, 1000);
-            } else {
-              showTypingBelow(true);
-              setTimeout(() => { showTypingBelow(false); addMessage(typeof MSG.padrao === 'function' ? MSG.padrao(nomeLead) : MSG.padrao || "Responda com sim ou não.", false, true); }, 1000);
-            }
-            return;
-          }
-          if (estadoConversa === "documentos") {
-            const palavrasChave = ["enviado", "feito", "pronto", "ok", "concluído"];
-            if (palavrasChave.includes(msgLower)) {
-              estadoConversa = "checkout";
-              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
-              enviarTelegram("CHECKOUT_SOLICITADO", `${nomeLead} confirmou envio dos documentos`);
-              setTyping("typing");
-              setTimeout(() => { setTyping("idle"); addMessage(typeof MSG.checkoutLink === 'function' ? MSG.checkoutLink(nomeLead) : MSG.checkoutLink || "Acesse o checkout.", false, true); }, 1000);
+              setTimeout(()=>{setTyping("idle"); addMessage(typeof MSG.semInteresse==='function'?MSG.semInteresse(nomeLead):MSG.semInteresse||"Tudo bem!",false,true);},1000);
               return;
             }
-            enviarTelegram("MENSAGEM_CLIENTE", `${nomeLead} escreveu: "${mensagem}"`);
-            addMessage("✅ Recebido! Envie os documentos restantes ou digite: <b>ENVIADO</b>, <b>FEITO</b>, <b>PRONTO</b>, <b>OK</b> ou <b>CONCLUÍDO</b> para avançar.", false, true);
+            showTypingBelow(true);
+            setTimeout(()=>{showTypingBelow(false); addMessage(typeof MSG.padrao==='function'?MSG.padrao(nomeLead):MSG.padrao||"Responda sim ou não.",false,true);},1000);
             return;
-          }          if (estadoConversa === "checkout" || estadoConversa === "aguardando_comprovante") {
+          }
+
+          // Se estiver na etapa prova_social e mandar algo, avança pra documentos
+          if (estadoConversa === "prova_social") {
+            estadoConversa = "documentos";
+            localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
+            setTyping("typing");
+            setTimeout(()=>{setTyping("idle"); addMessage(typeof MSG.documentos==='function'?MSG.documentos(nomeLead):MSG.documentos||"Envie os docs...",false,true);},1000);
+            return;
+          }
+
+          if (estadoConversa === "documentos") {
+            const kw = ["enviado","feito","pronto","ok","concluído"];
+            if (kw.includes(msgLower)) {
+              estadoConversa = "checkout";
+              localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
+              enviarTelegram("CHECKOUT_SOLICITADO", `${nomeLead} confirmou docs`);
+              setTyping("typing");
+              setTimeout(()=>{setTyping("idle"); addMessage(typeof MSG.checkoutLink==='function'?MSG.checkoutLink(nomeLead):MSG.checkoutLink||"Checkout...",false,true);},1000);
+              return;
+            }
+            enviarTelegram("MENSAGEM_CLIENTE", `${nomeLead}: "${mensagem}"`);
+            addMessage("✅ Recebido! Digite <b>ENVIADO</b>, <b>FEITO</b>, <b>PRONTO</b>, <b>OK</b> ou <b>CONCLUÍDO</b> para avançar.",false,true);
+            return;
+          }
+
+          if (estadoConversa === "checkout" || estadoConversa === "aguardando_comprovante") {
             estadoConversa = "aguardando_comprovante";
-            localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
-            enviarTelegram("COMPROVANTE_PAGAMENTO", `${nomeLead} enviou após checkout: "${mensagem}"`);
-            addMessage("📄 Comprovante recebido! Estou analisando e em breve enviarei o comprovante de liberação do seu empréstimo.", false, true);
+            localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
+            enviarTelegram("COMPROVANTE_PAGAMENTO", `${nomeLead} enviou pós-checkout`);
+            addMessage("📄 Comprovante recebido! Analisando e em breve enviarei a liberação.",false,true);
             return;
           }
         }
@@ -514,7 +334,7 @@
           responder(msg);
         }
 
-        document.getElementById("input").addEventListener("keypress", (e) => { if (e.key === "Enter") enviar(); });
+        document.getElementById("input").addEventListener("keypress", (e)=>{if(e.key==="Enter")enviar();});
 
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get("status");
@@ -523,39 +343,29 @@
         updateStatus();
         statusTimer = setTimeout(updateStatus, 15000);
 
-        if (!nomeLead && estadoConversa === "inicio") {
-          setTimeout(() => { addMessage(typeof MSG.pedirNome === 'function' ? MSG.pedirNome() : MSG.pedirNome || "Olá! Qual é o seu nome?", false, true); }, 500);
-        } else if (estadoConversa === "apresentacao") {
-          setTimeout(() => { addMessage(typeof MSG.apresentacao === 'function' ? MSG.apresentacao(nomeLead) : MSG.apresentacao || "Prazer!", false, true); }, 500);
-        } else if (estadoConversa === "documentos") {
-          setTimeout(() => { addMessage(typeof MSG.documentos === 'function' ? MSG.documentos(nomeLead) : MSG.documentos || "Envie os documentos...", false, true); }, 500);
-        } else if (estadoConversa === "checkout") {
-          setTimeout(() => { addMessage(typeof MSG.checkoutLink === 'function' ? MSG.checkoutLink(nomeLead) : MSG.checkoutLink || "Acesse o checkout.", false, true); }, 500);
-        }
+        if (!nomeLead && estadoConversa==="inicio") setTimeout(()=>addMessage(typeof MSG.pedirNome==='function'?MSG.pedirNome():MSG.pedirNome||"Olá!",false,true),500);
+        else if (estadoConversa==="apresentacao") setTimeout(()=>addMessage(typeof MSG.apresentacao==='function'?MSG.apresentacao(nomeLead):MSG.apresentacao||"Prazer!",false,true),500);
+        else if (estadoConversa==="documentos") setTimeout(()=>addMessage(typeof MSG.documentos==='function'?MSG.documentos(nomeLead):MSG.documentos||"Docs...",false,true),500);
+        else if (estadoConversa==="checkout") setTimeout(()=>addMessage(typeof MSG.checkoutLink==='function'?MSG.checkoutLink(nomeLead):MSG.checkoutLink||"Checkout...",false,true),500);
 
-        if (status === "pago") {
-          setTimeout(() => {
+        if (status==="pago") {
+          setTimeout(()=>{
             if (nomeLead) {
-              estadoConversa = "aguardando_comprovante";
-              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
-              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>Agora, por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>Seu empréstimo será liberado em até <b>24 horas</b> após análise.`, false, true);
+              estadoConversa="aguardando_comprovante";
+              localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
+              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>Envie o <b>comprovante do Pix</b> aqui. Liberação em até <b>24h</b>.`,false,true);
             } else if (nomeParam) {
-              nomeLead = decodeURIComponent(nomeParam);
-              localStorage.setItem("emprestimo_nome_" + idConversa, nomeLead);
-              estadoConversa = "aguardando_comprovante";
-              localStorage.setItem("emprestimo_estado_" + idConversa, estadoConversa);
-              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>Agora, por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>Seu empréstimo será liberado em até <b>24 horas</b> após análise.`, false, true);
-            } else {              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado!<br><br>Por favor, envie o <b>comprovante do Pix</b> aqui mesmo neste chat.<br>Seu empréstimo será liberado em até <b>24 horas</b>.`, false, true);
+              nomeLead=decodeURIComponent(nomeParam);
+              localStorage.setItem("emprestimo_nome_"+idConversa, nomeLead);
+              estadoConversa="aguardando_comprovante";
+              localStorage.setItem("emprestimo_estado_"+idConversa, estadoConversa);
+              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado, ${nomeLead}!<br><br>Envie o <b>comprovante do Pix</b> aqui. Liberação em até <b>24h</b>.`,false,true);
+            } else {
+              addMessage(`✅ Pagamento de <b>R$ 250,00</b> confirmado!<br><br>Envie o <b>comprovante do Pix</b> aqui. Liberação em até <b>24h</b>.`,false,true);
             }
-          }, 800);
+          },800);
         }
       }
-    
-window.visualViewport?.addEventListener('resize', () => {
-    const altura = window.visualViewport.height;
-    document.querySelector('.chat-container').style.height = altura + 'px';
-});
-
     </script>
   </body>
 </html>
